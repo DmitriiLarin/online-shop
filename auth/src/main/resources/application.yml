@@ -2,6 +2,7 @@ spring:
   application:
     name: auth
   liquibase:
+    default-schema: auth
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:

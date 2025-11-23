@@ -6,7 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
     <changeSet id="1" author="auth">
-        <createTable tableName="users">
+        <createTable tableName="users" schemaName="auth">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>

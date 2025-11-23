@@ -25,7 +25,7 @@ class SecurityConfig(
 
     @Bean
     fun userDetailsService(): UserDetailsService = UserDetailsService { username ->
-        val user = authDao.findByUsername(username)
+        val user = authDao.fetchByUsername(username).firstOrNull()
             ?: throw RuntimeException("User not found")
         org.springframework.security.core.userdetails.User
             .withUsername(user.username)

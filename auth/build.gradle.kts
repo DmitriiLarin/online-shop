@@ -36,7 +36,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.5")
     implementation("org.liquibase:liquibase-core")
 
-    jooqCodegen("org.postgresql:postgresql:42.7.5")
+    jooqGenerator("org.postgresql:postgresql:42.7.5")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -51,6 +51,10 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+sourceSets.main {
+    kotlin.srcDirs("src/main/kotlin", "build/generated-src/jooq/main")
 }
 
 jooq {
@@ -68,15 +72,17 @@ jooq {
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
                     database.apply {
                         name = "org.jooq.meta.postgres.PostgresDatabase"
-                        inputSchema = "public"
+                        inputSchema = "auth"
                         includes = ".*"
                         excludes = ""
                     }
                     target.apply {
                         packageName = "org.example.auth.jooq"
-                        directory = "src/main/kotlin"
+                        directory = "build/generated-src/jooq/main"
                     }
                     generate.apply {
+                        isDaos = true
+                        isTables = true
                         isRecords = true
                         isPojos = true
                         isInterfaces = true
