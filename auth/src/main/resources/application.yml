@@ -3,6 +3,7 @@ spring:
     name: auth
   liquibase:
     enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:
     url: jdbc:postgresql://localhost:5433/online-shop
     username: postgres
@@ -10,7 +11,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:

@@ -1,4 +1,4 @@
-package org.example.serverforandroid.security
+package org.example.auth.security
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

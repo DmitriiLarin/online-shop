@@ -1,4 +1,4 @@
-package org.example.serverforandroid.security
+package org.example.auth.security
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm

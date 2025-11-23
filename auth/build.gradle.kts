@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.25"
     id("org.springframework.boot") version "3.5.8"
     id("io.spring.dependency-management") version "1.1.7"
+    id("nu.studer.jooq") version "8.2.1"
 }
 
 group = "org.example"
@@ -25,13 +26,17 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-jooq")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jooq:jooq:3.15.1")
+    implementation("org.jooq:jooq:3.19.3")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.postgresql:postgresql:42.7.5")
+    implementation("org.liquibase:liquibase-core")
+
+    jooqCodegen("org.postgresql:postgresql:42.7.5")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -46,4 +51,41 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+jooq {
+    configurations {
+        create("main") {
+            jooqConfiguration.apply {
+                jdbc.apply {
+                    driver = "org.postgresql.Driver"
+                    url = "jdbc:postgresql://localhost:5433/online-shop"
+                    user = "postgres"
+                    password = "503812"
+                }
+                generator.apply {
+                    name = "org.jooq.codegen.DefaultGenerator"
+                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+                    database.apply {
+                        name = "org.jooq.meta.postgres.PostgresDatabase"
+                        inputSchema = "public"
+                        includes = ".*"
+                        excludes = ""
+                    }
+                    target.apply {
+                        packageName = "org.example.auth.jooq"
+                        directory = "src/main/kotlin"
+                    }
+                    generate.apply {
+                        isRecords = true
+                        isPojos = true
+                        isInterfaces = true
+                        isKotlinNotNullRecordAttributes = true
+                        isKotlinNotNullPojoAttributes = true
+                        isKotlinNotNullInterfaceAttributes = true
+                    }
+                }
+            }
+        }
+    }
 }

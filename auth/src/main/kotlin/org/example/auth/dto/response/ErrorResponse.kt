@@ -1,4 +1,4 @@
-package org.example.serverforandroid.dto.response
+package org.example.auth.dto.response
 
 import java.time.LocalDateTime
 

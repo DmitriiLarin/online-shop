@@ -1,6 +1,6 @@
-package org.example.serverforandroid.security
+package org.example.auth.security
 
-import org.example.serverforandroid.repository.UserRepository
+import org.example.auth.dao.AuthDao
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -17,7 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 class SecurityConfig(
-    private val userRepository: UserRepository
+    private val authDao: AuthDao
 ) {
 
     @Bean
@@ -25,7 +25,7 @@ class SecurityConfig(
 
     @Bean
     fun userDetailsService(): UserDetailsService = UserDetailsService { username ->
-        val user = userRepository.findByUsername(username)
+        val user = authDao.findByUsername(username)
             ?: throw RuntimeException("User not found")
         org.springframework.security.core.userdetails.User
             .withUsername(user.username)
