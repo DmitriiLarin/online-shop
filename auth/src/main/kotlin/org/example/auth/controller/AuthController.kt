@@ -8,12 +8,14 @@ import org.example.auth.dto.response.AuthResponse
 import org.example.auth.dto.response.ErrorResponse
 import org.example.auth.security.JwtTokenProvider
 import org.example.auth.dao.AuthDao
+import org.example.auth.util.toDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 
 @RestController
@@ -24,9 +26,13 @@ class AuthController(
     private val authDao: AuthDao
 ) {
 
+    companion object {
+        const val TOKEN: String = "Authorization"
+    }
+
     @PostMapping("/register")
     fun register(@RequestBody request: RegisterRequest): ResponseEntity<*> {
-        if (authDao.fetchByUsername(request.username) != null) {
+        if (authDao.fetchByUsername(request.username).size != 0) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(
                     ErrorResponse(
@@ -37,7 +43,7 @@ class AuthController(
                 )
         }
 
-        if (authDao.fetchByEmail(request.email) != null) {
+        if (authDao.fetchByEmail(request.email).size != 0) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(
                     ErrorResponse(
@@ -203,5 +209,15 @@ class AuthController(
         SecurityContextHolder.clearContext()
 
         return ResponseEntity.ok(mapOf("message" to "User deleted successfully"))
+    }
+
+    @GetMapping("/get-by-token")
+    fun getByToken(@RequestHeader(TOKEN) token: String): ResponseEntity<*> {
+        val username = jwtTokenProvider.getUsernameFromToken(token)
+
+        val userData = authDao.fetchByUsername(username).firstOrNull()
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+
+        return ResponseEntity.ok(userData.toDto())
     }
 }

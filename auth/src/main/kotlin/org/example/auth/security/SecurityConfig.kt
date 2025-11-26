@@ -42,7 +42,7 @@ class SecurityConfig(
     fun securityFilterChain(http: HttpSecurity, jwtTokenFilter: JwtTokenFilter): SecurityFilterChain {
         http
             .csrf { it.disable() }
-            .cors { it.configure(http) }
+            .cors { it.configurationSource(corsConfigurationSource()) }
             .authorizeHttpRequests {
                 it.requestMatchers("/api/v1/auth/**").permitAll()
                     .anyRequest().authenticated()

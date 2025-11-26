@@ -14,15 +14,17 @@ class AuthDao(
 
     fun createUser(user: User): User {
         val now = LocalDateTime.now()
-        val id = dsl.insertInto(USERS)
+        val record = dsl.insertInto(USERS)
             .set(USERS.USERNAME, user.username)
             .set(USERS.PASSWORD, user.password)
             .set(USERS.EMAIL, user.email)
             .set(USERS.CREATED_AT, now)
             .set(USERS.UPDATED_AT, now)
-            .returningResult(USERS.ID)
+            .returning()
             .fetchOne()
-            ?.getValue(USERS.ID)
+
+        val id = record?.get(USERS.ID)
+
 
         return user.copy(id = id, createdAt = now, updatedAt = now)
     }

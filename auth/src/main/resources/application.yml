@@ -2,9 +2,9 @@ spring:
   application:
     name: auth
   liquibase:
-    default-schema: auth
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.xml
+    liquibase-schema: auth
   datasource:
     url: jdbc:postgresql://localhost:5433/online-shop
     username: postgres
@@ -17,3 +17,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8080

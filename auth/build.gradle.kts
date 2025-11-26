@@ -33,10 +33,10 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
     runtimeOnly("org.postgresql:postgresql")
-    implementation("org.postgresql:postgresql:42.7.5")
     implementation("org.liquibase:liquibase-core")
+    testImplementation("io.mockk:mockk:1.13.8")
 
-    jooqGenerator("org.postgresql:postgresql:42.7.5")
+    jooqGenerator("org.postgresql:postgresql:42.7.3")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -74,7 +74,7 @@ jooq {
                         name = "org.jooq.meta.postgres.PostgresDatabase"
                         inputSchema = "auth"
                         includes = ".*"
-                        excludes = ""
+                        excludes = "databasechangelog|databasechangeloglock"
                     }
                     target.apply {
                         packageName = "org.example.auth.jooq"

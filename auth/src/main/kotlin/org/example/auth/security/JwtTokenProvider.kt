@@ -9,8 +9,6 @@ import javax.crypto.SecretKey
 
 @Component
 class JwtTokenProvider {
-
-    //    private val secretKey: SecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256)
     private val secret = "802734bb4a9971f73d244f9af249971f4e48318d7ce2735a2f71ff1dbbaa2e98";
     private val secretKey: SecretKey = Keys.hmacShaKeyFor(secret.toByteArray())
     private val validityInMs = 1000 * 60 * 60 * 24 * 7
