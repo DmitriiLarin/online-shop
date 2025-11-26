@@ -1,8 +1,8 @@
 package org.example.payment.dao
 
-import org.example.auth.jooq.Tables.PAYMENT
-import org.example.auth.jooq.tables.daos.PaymentDao
-import org.example.auth.jooq.tables.pojos.Payment
+import org.example.payment.jooq.Tables.PAYMENT_
+import org.example.payment.jooq.tables.daos.PaymentDao
+import org.example.payment.jooq.tables.pojos.Payment
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
@@ -15,13 +15,13 @@ class PaymentDao(
     fun createPayment(orderId: Long, paymentMethod: String): Payment {
         val now = LocalDateTime.now()
 
-        val payment = dsl.insertInto(PAYMENT)
-            .set(PAYMENT.ORDER_ID, orderId)
-            .set(PAYMENT.IS_PAYED, false)
-            .set(PAYMENT.STATUS, "pending")
-            .set(PAYMENT.PAYMENT_METHOD, paymentMethod)
-            .set(PAYMENT.CREATED_AT, now)
-            .set(PAYMENT.UPDATED_AT, now)
+        val payment = dsl.insertInto(PAYMENT_)
+            .set(PAYMENT_.ORDER_ID, orderId)
+            .set(PAYMENT_.IS_PAYED, false)
+            .set(PAYMENT_.STATUS, "pending")
+            .set(PAYMENT_.PAYMENT_METHOD, paymentMethod)
+            .set(PAYMENT_.CREATED_AT, now)
+            .set(PAYMENT_.UPDATED_AT, now)
             .returning()
             .fetchInto(Payment::class.java)
             .firstOrNull()!!
@@ -32,18 +32,18 @@ class PaymentDao(
     fun updatePaymentMethod(paymentId: Long, paymentMethod: String): Payment {
         val now = LocalDateTime.now()
 
-        dsl.update(PAYMENT)
-            .set(PAYMENT.PAYMENT_METHOD, paymentMethod)
-            .set(PAYMENT.UPDATED_AT, now)
-            .where(PAYMENT.ID.eq(paymentId))
+        dsl.update(PAYMENT_)
+            .set(PAYMENT_.PAYMENT_METHOD, paymentMethod)
+            .set(PAYMENT_.UPDATED_AT, now)
+            .where(PAYMENT_.ID.eq(paymentId))
             .execute()
 
         return fetchById(paymentId).firstOrNull()!!
     }
 
     fun getByOrderId(orderId: Long): Payment? {
-        return dsl.selectFrom(PAYMENT)
-            .where(PAYMENT.ORDER_ID.eq(orderId))
+        return dsl.selectFrom(PAYMENT_)
+            .where(PAYMENT_.ORDER_ID.eq(orderId))
             .fetchInto(Payment::class.java)
             .firstOrNull()
     }

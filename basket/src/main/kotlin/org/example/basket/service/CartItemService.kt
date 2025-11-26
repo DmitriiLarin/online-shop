@@ -1,8 +1,8 @@
 package org.example.basket.service
 
-import org.example.auth.jooq.tables.pojos.Cart
-import org.example.auth.jooq.tables.pojos.CartItems
-import org.example.auth.jooq.tables.pojos.Orders
+import org.example.basket.jooq.tables.pojos.Cart
+import org.example.basket.jooq.tables.pojos.CartItems
+import org.example.basket.jooq.tables.pojos.Orders
 import org.example.basket.dao.CartDao
 import org.example.basket.dao.CartItemDao
 import org.example.basket.dao.OrderDao

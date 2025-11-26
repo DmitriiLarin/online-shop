@@ -1,7 +1,7 @@
 package org.example.basket.dao
 
-import org.example.auth.jooq.Tables.CART
-import org.example.auth.jooq.tables.daos.CartDao
+import org.example.basket.jooq.Tables.CART
+import org.example.basket.jooq.tables.daos.CartDao
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime

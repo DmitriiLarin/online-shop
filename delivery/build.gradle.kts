@@ -81,7 +81,7 @@ jooq {
                         excludes = "databasechangelog|databasechangeloglock"
                     }
                     target.apply {
-                        packageName = "org.example.auth.jooq"
+                        packageName = "org.example.delivery.jooq"
                         directory = "build/generated-src/jooq/main"
                     }
                     generate.apply {

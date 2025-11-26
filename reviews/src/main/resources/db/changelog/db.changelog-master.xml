@@ -9,7 +9,7 @@
     <changeSet id="1" author="reviews">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="review" schemaName="review"/>
+                <tableExists tableName="review" schemaName="reviews"/>
             </not>
         </preConditions>
 

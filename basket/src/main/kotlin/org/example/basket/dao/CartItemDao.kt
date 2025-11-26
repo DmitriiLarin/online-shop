@@ -1,8 +1,8 @@
 package org.example.basket.dao
 
-import org.example.auth.jooq.Tables.CART_ITEMS
-import org.example.auth.jooq.tables.daos.CartItemsDao
-import org.example.auth.jooq.tables.pojos.CartItems
+import org.example.basket.jooq.Tables.CART_ITEMS
+import org.example.basket.jooq.tables.daos.CartItemsDao
+import org.example.basket.jooq.tables.pojos.CartItems
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import java.time.Instant

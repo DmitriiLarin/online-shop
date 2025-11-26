@@ -1,6 +1,6 @@
 package org.example.payment.service
 
-import org.example.auth.jooq.tables.pojos.Payment
+import org.example.payment.jooq.tables.pojos.Payment
 import org.example.payment.dao.PaymentDao
 import org.example.payment.dto.request.InitPaymentRequest
 import org.example.payment.dto.response.UserDataResponse

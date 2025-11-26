@@ -1,9 +1,9 @@
 package org.example.basket.dao
 
-import org.example.auth.jooq.tables.Orders.ORDERS
-import org.example.auth.jooq.tables.daos.OrdersDao
-import org.example.auth.jooq.tables.pojos.Cart
-import org.example.auth.jooq.tables.pojos.Orders
+import org.example.basket.jooq.tables.Orders.ORDERS
+import org.example.basket.jooq.tables.daos.OrdersDao
+import org.example.basket.jooq.tables.pojos.Cart
+import org.example.basket.jooq.tables.pojos.Orders
 import org.example.basket.dto.request.CreateOrderRequest
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository

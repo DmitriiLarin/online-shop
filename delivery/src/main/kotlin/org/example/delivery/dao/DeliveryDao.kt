@@ -1,8 +1,8 @@
 package org.example.delivery.dao
 
-import org.example.auth.jooq.Tables.DELIVERY
-import org.example.auth.jooq.tables.daos.DeliveryDao
-import org.example.auth.jooq.tables.pojos.Delivery
+import org.example.delivery.jooq.tables.daos.DeliveryDao
+import org.example.delivery.jooq.tables.pojos.Delivery
+import org.example.delivery.jooq.tables.Delivery.DELIVERY_
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
@@ -20,14 +20,14 @@ class DeliveryDao(
     ): Delivery {
         val now = LocalDateTime.now()
 
-        val delivery = dsl.insertInto(DELIVERY)
-            .set(DELIVERY.ORDER_ID, orderId)
-            .set(DELIVERY.STATUS, "pending")
-            .set(DELIVERY.SHIPPING_ADDRESS, shippingAddress)
-            .set(DELIVERY.BILLING_ADDRESS, billingAddress)
-            .set(DELIVERY.TYPE, type)
-            .set(DELIVERY.CREATED_AT, now)
-            .set(DELIVERY.UPDATED_AT, now)
+        val delivery = dsl.insertInto(DELIVERY_)
+            .set(DELIVERY_.ORDER_ID, orderId)
+            .set(DELIVERY_.STATUS, "pending")
+            .set(DELIVERY_.SHIPPING_ADDRESS, shippingAddress)
+            .set(DELIVERY_.BILLING_ADDRESS, billingAddress)
+            .set(DELIVERY_.TYPE, type)
+            .set(DELIVERY_.CREATED_AT, now)
+            .set(DELIVERY_.UPDATED_AT, now)
             .returning()
             .fetchInto(Delivery::class.java)
             .firstOrNull()!!
@@ -42,19 +42,19 @@ class DeliveryDao(
     ): Delivery {
         val now = LocalDateTime.now()
 
-        dsl.update(DELIVERY)
-            .set(DELIVERY.SHIPPING_ADDRESS, shippingAddress)
-            .set(DELIVERY.BILLING_ADDRESS, billingAddress)
-            .set(DELIVERY.UPDATED_AT, now)
-            .where(DELIVERY.ID.eq(deliveryId))
+        dsl.update(DELIVERY_)
+            .set(DELIVERY_.SHIPPING_ADDRESS, shippingAddress)
+            .set(DELIVERY_.BILLING_ADDRESS, billingAddress)
+            .set(DELIVERY_.UPDATED_AT, now)
+            .where(DELIVERY_.ID.eq(deliveryId))
             .execute()
 
         return fetchById(deliveryId).firstOrNull()!!
     }
 
     fun getByOrderId(orderId: Long): Delivery? {
-        return dsl.selectFrom(DELIVERY)
-            .where(DELIVERY.ORDER_ID.eq(orderId))
+        return dsl.selectFrom(DELIVERY_)
+            .where(DELIVERY_.ORDER_ID.eq(orderId))
             .fetchInto(Delivery::class.java)
             .firstOrNull()
     }

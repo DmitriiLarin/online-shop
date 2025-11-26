@@ -1,8 +1,8 @@
 package org.example.reviews.dao
 
-import org.example.auth.jooq.Tables.REVIEW
-import org.example.auth.jooq.tables.daos.ReviewDao
-import org.example.auth.jooq.tables.pojos.Review
+import org.example.reviews.jooq.Tables.REVIEW
+import org.example.reviews.jooq.tables.daos.ReviewDao
+import org.example.reviews.jooq.tables.pojos.Review
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 
@@ -38,10 +38,5 @@ class ReviewDao(
         return review
     }
 
-    fun deleteById(reviewId: Long) {
-        dsl.deleteFrom(REVIEW)
-            .where(REVIEW.ID.eq(reviewId))
-            .execute()
-    }
 }
 

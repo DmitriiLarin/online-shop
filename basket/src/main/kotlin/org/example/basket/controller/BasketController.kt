@@ -1,7 +1,7 @@
 package org.example.basket.controller
 
-import org.example.auth.jooq.tables.pojos.Cart
-import org.example.auth.jooq.tables.pojos.Orders
+import org.example.basket.jooq.tables.pojos.Cart
+import org.example.basket.jooq.tables.pojos.Orders
 import org.example.basket.client.AuthClient
 import org.example.basket.dto.request.CreateOrderRequest
 import org.example.basket.dto.request.ItemAddRequest

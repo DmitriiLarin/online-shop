@@ -1,7 +1,7 @@
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
-	id("org.springframework.boot") version "3.5.8"
+	id("org.springframework.boot") version "3.2.5"
 	id("io.spring.dependency-management") version "1.1.7"
 	id("nu.studer.jooq") version "8.2.1"
 }
@@ -80,7 +80,7 @@ jooq {
 						excludes = "databasechangelog|databasechangeloglock"
 					}
 					target.apply {
-						packageName = "org.example.auth.jooq"
+						packageName = "org.example.reviews.jooq"
 						directory = "build/generated-src/jooq/main"
 					}
 					generate.apply {

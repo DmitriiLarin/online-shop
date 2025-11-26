@@ -1,6 +1,6 @@
 package org.example.reviews.controller
 
-import org.example.auth.jooq.tables.pojos.Review
+import org.example.reviews.jooq.tables.pojos.Review
 import org.example.reviews.client.AuthClient
 import org.example.reviews.dto.request.AddReviewRequest
 import org.example.reviews.service.ReviewService

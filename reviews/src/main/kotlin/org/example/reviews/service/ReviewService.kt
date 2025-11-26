@@ -1,6 +1,6 @@
 package org.example.reviews.service
 
-import org.example.auth.jooq.tables.pojos.Review
+import org.example.reviews.jooq.tables.pojos.Review
 import org.example.reviews.dao.ReviewDao
 import org.example.reviews.dto.request.AddReviewRequest
 import org.example.reviews.dto.response.UserDataResponse

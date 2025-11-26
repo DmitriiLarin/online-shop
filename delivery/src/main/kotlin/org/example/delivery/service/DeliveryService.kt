@@ -1,6 +1,6 @@
 package org.example.delivery.service
 
-import org.example.auth.jooq.tables.pojos.Delivery
+import org.example.delivery.jooq.tables.pojos.Delivery
 import org.example.delivery.dao.DeliveryDao
 import org.example.delivery.dto.request.ChangeAddressRequest
 import org.example.delivery.dto.request.InitDeliveryRequest
