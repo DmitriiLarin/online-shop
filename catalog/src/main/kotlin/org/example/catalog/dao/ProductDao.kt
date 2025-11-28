@@ -1,6 +1,6 @@
 package org.example.catalog.dao
 
-import org.example.catalog.jooq.tables.Product.PRODUCT
+import org.example.catalog.jooq.Tables.PRODUCT
 import org.example.catalog.jooq.tables.daos.ProductDao
 import org.example.catalog.model.ProductDto
 import org.jooq.DSLContext
@@ -18,6 +18,7 @@ class ProductDao(
             .set(PRODUCT.IMAGE, product.image)
             .set(PRODUCT.CATEGORY, product.category)
             .set(PRODUCT.USER_ID, product.userId)
+            .execute()
     }
 
     fun updateById(id: Long, product: ProductDto) {

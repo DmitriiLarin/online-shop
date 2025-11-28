@@ -164,7 +164,7 @@ class AuthController(
                 )
 
         if (request.email != null) {
-            val existingUser = authDao.fetchByEmail(request.email).first()
+            val existingUser = authDao.fetchByEmail(request.email).firstOrNull()
             if (existingUser != null && existingUser.id != user.id) {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(
@@ -215,9 +215,12 @@ class AuthController(
     fun getByToken(@RequestHeader(TOKEN) token: String): ResponseEntity<*> {
         val username = jwtTokenProvider.getUsernameFromToken(token)
 
+        println(username)
+
         val userData = authDao.fetchByUsername(username).firstOrNull()
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 
+        println(userData)
         return ResponseEntity.ok(userData.toDto())
     }
 }

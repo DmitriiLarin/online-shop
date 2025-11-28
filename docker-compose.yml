@@ -1,0 +1,123 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: online-shop
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - online-shop
+
+  auth:
+    build:
+      context: ./auth
+    container_name: auth
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: ${POSTGRES_URL}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - online-shop
+
+  basket:
+    build:
+      context: ./basket
+    container_name: basket
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: ${POSTGRES_URL}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8081:8081"
+    networks:
+      - online-shop
+
+#  catalog:
+#    build:
+#      context: ./catalog
+#    container_name: catalog
+#    env_file:
+#      - .env
+#    depends_on:
+#      - postgres
+#    environment:
+#      SPRING_DATASOURCE_URL: ${POSTGRES_URL}
+#      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
+#      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+#    ports:
+#      - "8082:8082"
+#    networks:
+#      - online-shop
+#
+#  delivery:
+#    build:
+#      context: ./delivery
+#    container_name: delivery
+#    env_file:
+#      - .env
+#    depends_on:
+#      - postgres
+#    environment:
+#      SPRING_DATASOURCE_URL: ${POSTGRES_URL}
+#      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
+#      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+#    ports:
+#      - "8083:8083"
+#    networks:
+#      - online-shop
+#
+#  payment:
+#    build:
+#      context: ./payment
+#    container_name: payment
+#    env_file:
+#      - .env
+#    depends_on:
+#      - postgres
+#    environment:
+#      SPRING_DATASOURCE_URL: ${POSTGRES_URL}
+#      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
+#      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+#    ports:
+#      - "8084:8084"
+#    networks:
+#      - online-shop
+#
+#  reviews:
+#    build:
+#      context: ./reviews
+#    container_name: reviews
+#    env_file:
+#      - .env
+#    depends_on:
+#      - postgres
+#    environment:
+#      SPRING_DATASOURCE_URL: ${POSTGRES_URL}
+#      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
+#      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+#    ports:
+#      - "8085:8085"
+#    networks:
+#      - online-shop
+volumes:
+  postgres-data:
+
+networks:
+  online-shop:
+    driver: bridge

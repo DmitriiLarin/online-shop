@@ -43,10 +43,10 @@ class CartItemService(
         } else {
             items.quantity += item.quantity
             items.addedAt = LocalDateTime.now()
-            cartItemDao.insert(items)
+            cartItemDao.update(items)
         }
 
-        return cartDao.fetchByUserId(cartId).firstOrNull()!!
+        return cartDao.fetchById(cartId).firstOrNull()!!
     }
 
     fun clearCart(user: UserDataResponse){

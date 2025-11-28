@@ -31,7 +31,7 @@ class CatalogController(
         return ResponseEntity.ok("Product added")
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/product/{id}/delete")
     fun delete(@RequestHeader(TOKEN) token: String, @PathVariable id: Long): ResponseEntity<String> {
         productDao.dsl.transaction { _ ->
             val item = productDao.fetchById(id).firstOrNull() ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
@@ -46,7 +46,7 @@ class CatalogController(
         return ResponseEntity.ok("Product deleted")
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/product/{id}/update")
     fun update(
         @RequestHeader(TOKEN) token: String,
         @PathVariable id: Long,

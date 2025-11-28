@@ -22,6 +22,7 @@ class OrderItemDao(
                 .set(ORDER_ITEMS.UNIT_PRICE, 100)
                 .set(ORDER_ITEMS.TOTAL_PRICE, it.quantity * 100)
                 .set(ORDER_ITEMS.CREATED_AT, LocalDateTime.now())
+                .execute()
         }
     }
 

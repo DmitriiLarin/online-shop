@@ -5,7 +5,6 @@ import org.example.basket.jooq.tables.daos.CartItemsDao
 import org.example.basket.jooq.tables.pojos.CartItems
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
-import java.time.Instant
 import java.time.LocalDateTime
 
 @Repository
@@ -26,6 +25,7 @@ class CartItemDao(
             .set(CART_ITEMS.CART_ID, cartId)
             .set(CART_ITEMS.QUANTITY, quantity)
             .set(CART_ITEMS.ADDED_AT, LocalDateTime.now())
+            .execute()
     }
 
     fun deleteByCartId(cartId: Long) {

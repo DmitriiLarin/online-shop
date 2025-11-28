@@ -24,7 +24,7 @@ class ReviewsController(
         const val TOKEN: String = "Authorization"
     }
 
-    @GetMapping("/{product_id}/average")
+    @GetMapping("/product/{product_id}/average")
     fun getAverageReviews(@PathVariable("product_id") productId: Long): ResponseEntity<Double> {
         val average = reviewService.getAverageReviews(productId)
         return ResponseEntity.ok(average)

@@ -33,12 +33,12 @@ class BasketController(
         return ResponseEntity.ok(cart)
     }
 
-    @DeleteMapping("/cart/{productId}/delete")
+    @DeleteMapping("/product/{productId}/delete")
     fun deleteItem(@RequestHeader(TOKEN) token: String, @PathVariable productId: Long): ResponseEntity<String> {
         val user = authClient.getUserByToken(token) ?: throw Exception("User not found")
         orderItemService.deleteItem(user, productId)
 
-        return ResponseEntity.ok("Cart cleared")
+        return ResponseEntity.ok("Products deleted")
     }
 
     @DeleteMapping("/cart/clear")
