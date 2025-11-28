@@ -59,12 +59,12 @@ class CatalogControllerTest {
             updatedAt = LocalDateTime.now()
         )
         val product = Product(
-            id = productId,
-            userId = user.id,
-            price = 100,
-            quantity = 10,
-            image = "image.jpg",
-            category = "Electronics"
+            productId,
+            100,
+            5,
+            "image.jpg",
+            "Electronics",
+            user.id,
         )
 
         every { productDao.fetchById(productId) } returns listOf(product)
@@ -92,12 +92,12 @@ class CatalogControllerTest {
             updatedAt = LocalDateTime.now()
         )
         val product = Product(
-            id = productId,
-            userId = user.id,
-            price = 100,
-            quantity = 10,
-            image = "image.jpg",
-            category = "Electronics"
+            productId,
+            100,
+            5,
+            "image.jpg",
+            "Electronics",
+            user.id,
         )
         val productDto = ProductDto(
             price = 150,

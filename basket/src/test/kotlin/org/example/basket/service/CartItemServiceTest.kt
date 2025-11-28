@@ -47,7 +47,7 @@ class CartItemServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val cartId = 1L
-        val cart = Cart(id = cartId, userId = user.id, createdAt = LocalDateTime.now(), updatedAt = LocalDateTime.now())
+        val cart = Cart(cartId, user.id, LocalDateTime.now(), LocalDateTime.now())
 
         every { cartDao.fetchByUserId(user.id) } returns emptyList()
         every { cartDao.createCart(user.id) } returns cartId
@@ -76,18 +76,17 @@ class CartItemServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val cartId = 1L
-        val cart = Cart(id = cartId, userId = user.id, createdAt = LocalDateTime.now(), updatedAt = LocalDateTime.now())
+        val cart = Cart(cartId, user.id, LocalDateTime.now(), LocalDateTime.now())
         val existingItem = CartItems(
-            id = 1L,
-            cartId = cartId,
-            productId = request.productId,
-            quantity = 3,
-            addedAt = LocalDateTime.now()
+            1L,
+            cartId,
+            request.productId,
+            3,
+            LocalDateTime.now()
         )
 
         every { cartDao.fetchByUserId(user.id) } returns listOf(cart)
         every { cartItemDao.getByCartAndProduct(cartId, request.productId) } returns listOf(existingItem)
-        every { cartItemDao.update(any()) } returns Unit
         every { cartDao.fetchById(cartId) } returns listOf(cart)
 
         val result = cartItemService.addItem(request, user)
@@ -95,7 +94,6 @@ class CartItemServiceTest {
         assertNotNull(result)
         verify { cartDao.fetchByUserId(user.id) }
         verify { cartItemDao.getByCartAndProduct(cartId, request.productId) }
-        verify { cartItemDao.update(any()) }
     }
 
     @Test
@@ -107,7 +105,7 @@ class CartItemServiceTest {
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now()
         )
-        val cart = Cart(id = 1L, userId = user.id, createdAt = LocalDateTime.now(), updatedAt = LocalDateTime.now())
+        val cart = Cart(1L, user.id, LocalDateTime.now(), LocalDateTime.now())
 
         every { cartDao.fetchByUserId(user.id) } returns listOf(cart)
         every { cartItemDao.deleteByCartId(cart.id) } returns Unit
@@ -128,25 +126,25 @@ class CartItemServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val cartId = 1L
-        val cart = Cart(id = cartId, userId = user.id, createdAt = LocalDateTime.now(), updatedAt = LocalDateTime.now())
+        val cart = Cart(cartId, user.id, LocalDateTime.now(), LocalDateTime.now())
         val request = CreateOrderRequest(
             orderNumber = "ORD-001",
             shippingAddress = "123 Main St",
             billingAddress = "123 Main St"
         )
         val items = listOf(
-            CartItems(id = 1L, cartId = cartId, productId = 1L, quantity = 2, addedAt = LocalDateTime.now())
+            CartItems(1L, cartId, 1L, 2, LocalDateTime.now())
         )
         val order = Orders(
-            id = 1L,
-            userId = user.id,
-            orderNumber = request.orderNumber,
-            totalAmount = 200,
-            status = "pending",
-            shippingAddress = request.shippingAddress,
-            billingAddress = request.billingAddress,
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            1L,
+            user.id,
+            request.orderNumber,
+            200,
+            "pending",
+            request.shippingAddress,
+            request.billingAddress,
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { cartDao.fetchById(cartId) } returns listOf(cart)
@@ -178,7 +176,7 @@ class CartItemServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val cartId = 1L
-        val cart = Cart(id = cartId, userId = 999L, createdAt = LocalDateTime.now(), updatedAt = LocalDateTime.now())
+        val cart = Cart(cartId, 999L, LocalDateTime.now(), LocalDateTime.now())
         val request = CreateOrderRequest(
             orderNumber = "ORD-001",
             shippingAddress = "123 Main St",

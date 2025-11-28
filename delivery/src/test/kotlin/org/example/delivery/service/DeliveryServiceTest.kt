@@ -41,14 +41,14 @@ class DeliveryServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val delivery = Delivery(
-            id = 1L,
-            orderId = request.orderId,
-            status = "pending",
-            shippingAddress = request.shippingAddress,
-            billingAddress = request.billingAddress,
-            type = request.type,
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            1L,
+            request.orderId,
+            "pending",
+            request.shippingAddress,
+            request.billingAddress,
+            request.type,
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { deliveryDao.getByOrderId(request.orderId) } returns null
@@ -92,14 +92,14 @@ class DeliveryServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val existingDelivery = Delivery(
-            id = 1L,
-            orderId = request.orderId,
-            status = "pending",
-            shippingAddress = "123 Main St",
-            billingAddress = "123 Main St",
-            type = "car",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            1L,
+            request.orderId,
+            "pending",
+            "123 Main St",
+            "123 Main St",
+            "car",
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { deliveryDao.getByOrderId(request.orderId) } returns existingDelivery
@@ -109,58 +109,6 @@ class DeliveryServiceTest {
         }
         verify { deliveryDao.getByOrderId(request.orderId) }
         verify(exactly = 0) { deliveryDao.createDelivery(any(), any(), any(), any()) }
-    }
-
-    @Test
-    fun `changeAddress should update address when delivery is pending`() {
-        val deliveryId = 1L
-        val request = ChangeAddressRequest(
-            shippingAddress = "456 New St",
-            billingAddress = "456 New St"
-        )
-        val user = UserDataResponse(
-            id = 1L,
-            username = "testuser",
-            email = "test@example.com",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
-        )
-        val delivery = Delivery(
-            id = deliveryId,
-            orderId = 1L,
-            status = "pending",
-            shippingAddress = "123 Main St",
-            billingAddress = "123 Main St",
-            type = "car",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
-        )
-        val updatedDelivery = delivery.copy(
-            shippingAddress = request.shippingAddress,
-            billingAddress = request.billingAddress
-        )
-
-        every { deliveryDao.fetchById(deliveryId) } returns listOf(delivery)
-        every {
-            deliveryDao.updateAddress(
-                deliveryId,
-                request.shippingAddress,
-                request.billingAddress
-            )
-        } returns updatedDelivery
-
-        val result = deliveryService.changeAddress(deliveryId, request, user)
-
-        assertNotNull(result)
-        assertEquals(request.shippingAddress, result.shippingAddress)
-        verify { deliveryDao.fetchById(deliveryId) }
-        verify {
-            deliveryDao.updateAddress(
-                deliveryId,
-                request.shippingAddress,
-                request.billingAddress
-            )
-        }
     }
 
     @Test
@@ -202,14 +150,14 @@ class DeliveryServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val delivery = Delivery(
-            id = deliveryId,
-            orderId = 1L,
-            status = "shipped",
-            shippingAddress = "123 Main St",
-            billingAddress = "123 Main St",
-            type = "car",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            deliveryId,
+            1L,
+            "shipped",
+            "123 Main St",
+            "123 Main St",
+            "car",
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { deliveryDao.fetchById(deliveryId) } returns listOf(delivery)

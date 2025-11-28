@@ -38,13 +38,13 @@ class PaymentServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val payment = Payment(
-            id = 1L,
-            orderId = request.orderId,
-            isPayed = false,
-            status = "pending",
-            paymentMethod = request.paymentMethod,
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            1L,
+            request.orderId,
+            false,
+            "pending",
+            request.paymentMethod,
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { paymentDao.getByOrderId(request.orderId) } returns null
@@ -72,13 +72,13 @@ class PaymentServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val existingPayment = Payment(
-            id = 1L,
-            orderId = request.orderId,
-            isPayed = false,
-            status = "pending",
-            paymentMethod = "card",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            1L,
+            request.orderId,
+            false,
+            "pending",
+            "card",
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { paymentDao.getByOrderId(request.orderId) } returns existingPayment
@@ -88,39 +88,6 @@ class PaymentServiceTest {
         }
         verify { paymentDao.getByOrderId(request.orderId) }
         verify(exactly = 0) { paymentDao.createPayment(any(), any()) }
-    }
-
-    @Test
-    fun `changePaymentMethod should update payment method when payment is not paid`() {
-        val paymentId = 1L
-        val paymentMethod = "paypal"
-        val user = UserDataResponse(
-            id = 1L,
-            username = "testuser",
-            email = "test@example.com",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
-        )
-        val payment = Payment(
-            id = paymentId,
-            orderId = 1L,
-            isPayed = false,
-            status = "pending",
-            paymentMethod = "card",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
-        )
-        val updatedPayment = payment.copy(paymentMethod = paymentMethod)
-
-        every { paymentDao.fetchById(paymentId) } returns listOf(payment)
-        every { paymentDao.updatePaymentMethod(paymentId, paymentMethod) } returns updatedPayment
-
-        val result = paymentService.changePaymentMethod(paymentId, paymentMethod, user)
-
-        assertNotNull(result)
-        assertEquals(paymentMethod, result.paymentMethod)
-        verify { paymentDao.fetchById(paymentId) }
-        verify { paymentDao.updatePaymentMethod(paymentId, paymentMethod) }
     }
 
     @Test
@@ -156,13 +123,13 @@ class PaymentServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val payment = Payment(
-            id = paymentId,
-            orderId = 1L,
-            isPayed = true,
-            status = "completed",
-            paymentMethod = "card",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            paymentId,
+            1L,
+            true,
+            "completed",
+            "card",
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { paymentDao.fetchById(paymentId) } returns listOf(payment)

@@ -5,11 +5,11 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.example.payment.client.AuthClient
 import org.example.payment.dto.request.InitPaymentRequest
-import org.example.payment.dto.response.InitPaymentReponse
 import org.example.payment.dto.response.UserDataResponse
 import org.example.payment.jooq.tables.pojos.Payment
 import org.example.payment.service.PaymentService
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
@@ -43,13 +43,13 @@ class PaymentControllerTest {
             updatedAt = LocalDateTime.now()
         )
         val payment = Payment(
-            id = 1L,
-            orderId = request.orderId,
-            isPayed = false,
-            status = "pending",
-            paymentMethod = request.paymentMethod,
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            1L,
+            request.orderId,
+            false,
+            "pending",
+            request.paymentMethod,
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { authClient.getUserByToken(token) } returns user
@@ -77,13 +77,13 @@ class PaymentControllerTest {
             updatedAt = LocalDateTime.now()
         )
         val payment = Payment(
-            id = paymentId,
-            orderId = 1L,
-            isPayed = false,
-            status = "pending",
-            paymentMethod = paymentMethod,
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            paymentId,
+            1L,
+            false,
+            "pending",
+            paymentMethod,
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { authClient.getUserByToken(token) } returns user

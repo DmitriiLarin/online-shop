@@ -40,7 +40,7 @@ class BasketControllerTest {
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now()
         )
-        val cart = Cart(id = 1L, userId = 1L, createdAt = LocalDateTime.now(), updatedAt = LocalDateTime.now())
+        val cart = Cart(1L, 1L, LocalDateTime.now(), LocalDateTime.now())
 
         every { authClient.getUserByToken(token) } returns user
         every { cartItemService.addItem(request, user) } returns cart
@@ -85,7 +85,7 @@ class BasketControllerTest {
         val response = basketController.deleteItem(token, productId)
 
         assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals("Cart cleared", response.body)
+        assertEquals("Products deleted", response.body)
         verify { authClient.getUserByToken(token) }
         verify { cartItemService.deleteItem(user, productId) }
     }
@@ -129,15 +129,15 @@ class BasketControllerTest {
             updatedAt = LocalDateTime.now()
         )
         val order = Orders(
-            id = 1L,
-            userId = 1L,
-            orderNumber = "ORD-001",
-            totalAmount = 200,
-            status = "pending",
-            shippingAddress = "123 Main St",
-            billingAddress = "123 Main St",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            1L,
+            1L,
+            "ORD-001",
+            200,
+            "pending",
+            "123 Main St",
+            "123 Main St",
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { authClient.getUserByToken(token) } returns user

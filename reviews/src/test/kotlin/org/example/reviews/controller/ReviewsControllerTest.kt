@@ -43,10 +43,10 @@ class ReviewsControllerTest {
             updatedAt = LocalDateTime.now()
         )
         val review = Review(
-            id = 1L,
-            productId = request.productId,
-            text = request.text,
-            estimation = request.estimation
+            1L,
+            request.productId,
+            request.text,
+            request.estimation
         )
 
         every { authClient.getUserByToken(token) } returns user

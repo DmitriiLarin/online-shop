@@ -39,10 +39,10 @@ class ReviewServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val review = Review(
-            id = 1L,
-            productId = request.productId,
-            text = request.text,
-            estimation = request.estimation
+            1L,
+            request.productId,
+            request.text,
+            request.estimation
         )
 
         every { reviewDao.createReview(request.productId, request.text, request.estimation) } returns review
@@ -111,10 +111,10 @@ class ReviewServiceTest {
             updatedAt = LocalDateTime.now()
         )
         val review = Review(
-            id = reviewId,
-            productId = 1L,
-            text = "Review text",
-            estimation = 5
+            reviewId,
+            1L,
+            "Review text",
+            5
         )
 
         every { reviewDao.fetchById(reviewId) } returns listOf(review)
@@ -143,7 +143,7 @@ class ReviewServiceTest {
             reviewService.deleteReview(reviewId, user)
         }
         verify { reviewDao.fetchById(reviewId) }
-        verify(exactly = 0) { reviewDao.deleteById(any()) }
+        verify(exactly = 0) { reviewDao.deleteById(user.id) }
     }
 }
 

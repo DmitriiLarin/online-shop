@@ -45,14 +45,14 @@ class DeliveryControllerTest {
             updatedAt = LocalDateTime.now()
         )
         val delivery = Delivery(
-            id = 1L,
-            orderId = request.orderId,
-            status = "pending",
-            shippingAddress = request.shippingAddress,
-            billingAddress = request.billingAddress,
-            type = request.type,
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            1L,
+            request.orderId,
+            "pending",
+            request.shippingAddress,
+            request.billingAddress,
+            request.type,
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { authClient.getUserByToken(token) } returns user
@@ -82,14 +82,14 @@ class DeliveryControllerTest {
             updatedAt = LocalDateTime.now()
         )
         val delivery = Delivery(
-            id = deliveryId,
-            orderId = 1L,
-            status = "pending",
-            shippingAddress = request.shippingAddress,
-            billingAddress = request.billingAddress,
-            type = "car",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+            deliveryId,
+            1L,
+            "pending",
+            request.shippingAddress,
+            request.billingAddress,
+            "car",
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { authClient.getUserByToken(token) } returns user

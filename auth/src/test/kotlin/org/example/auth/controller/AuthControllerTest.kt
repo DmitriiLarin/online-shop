@@ -5,6 +5,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.example.auth.dao.AuthDao
 import org.example.auth.dto.request.*
+import org.example.auth.jooq.tables.pojos.Users
 import org.example.auth.model.User
 import org.example.auth.security.JwtTokenProvider
 import org.junit.jupiter.api.Assertions.*
@@ -65,8 +66,9 @@ class AuthControllerTest {
 
     @Test
     fun `register should return conflict when username already exists`() {
+        val now = LocalDateTime.now()
         val request = RegisterRequest("testuser", "test@example.com", "password123")
-        val existingUser = User(id = 1L, username = request.username, password = "pass", email = "email")
+        val existingUser = Users(1L, request.username, "pass", "email", now, now)
 
         every { authDao.fetchByUsername(request.username) } returns listOf(existingUser)
 
@@ -79,8 +81,9 @@ class AuthControllerTest {
 
     @Test
     fun `register should return conflict when email already exists`() {
+        val now = LocalDateTime.now()
         val request = RegisterRequest("testuser", "test@example.com", "password123")
-        val existingUser = User(id = 1L, username = "other", password = "pass", email = request.email)
+        val existingUser = Users(1L, "other", "pass", request.email, now, now)
 
         every { authDao.fetchByUsername(request.username) } returns emptyList()
         every { authDao.fetchByEmail(request.email) } returns listOf(existingUser)
@@ -95,15 +98,11 @@ class AuthControllerTest {
 
     @Test
     fun `login should return token when credentials are valid`() {
+        val now = LocalDateTime.now()
         val request = LoginRequest("testuser", "password123")
         val encodedPassword = "encodedPassword"
         val token = "test-token"
-        val user = User(
-            id = 1L,
-            username = request.username,
-            password = encodedPassword,
-            email = "test@example.com"
-        )
+        val user = Users(1L, request.username,  encodedPassword, "test@example.com", now, now)
 
         every { authDao.fetchByUsername(request.username) } returns listOf(user)
         every { passwordEncoder.matches(request.password, encodedPassword) } returns true
@@ -134,12 +133,8 @@ class AuthControllerTest {
     fun `login should return unauthorized when password is incorrect`() {
         val request = LoginRequest("testuser", "wrongpassword")
         val encodedPassword = "encodedPassword"
-        val user = User(
-            id = 1L,
-            username = request.username,
-            password = encodedPassword,
-            email = "test@example.com"
-        )
+        val now = LocalDateTime.now()
+        val user = Users(1L, request.username,  encodedPassword, "test@example.com", now, now)
 
         every { authDao.fetchByUsername(request.username) } returns listOf(user)
         every { passwordEncoder.matches(request.password, encodedPassword) } returns false
@@ -158,12 +153,8 @@ class AuthControllerTest {
         val username = "testuser"
         val encodedOldPassword = "encodedOldPassword"
         val encodedNewPassword = "encodedNewPassword"
-        val user = User(
-            id = 1L,
-            username = username,
-            password = encodedOldPassword,
-            email = "test@example.com"
-        )
+        val now = LocalDateTime.now()
+        val user = Users(1L, username,  encodedOldPassword, "test@example.com", now, now)
 
         val authentication = mockk<Authentication>()
         val securityContext = mockk<SecurityContext>()
@@ -192,13 +183,13 @@ class AuthControllerTest {
     fun `getByToken should return user data when token is valid`() {
         val token = "valid-token"
         val username = "testuser"
-        val user = User(
-            id = 1L,
-            username = username,
-            password = "password",
-            email = "test@example.com",
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
+        val user = Users(
+            1L,
+            username,
+            "password",
+            "test@example.com",
+            LocalDateTime.now(),
+            LocalDateTime.now()
         )
 
         every { jwtTokenProvider.getUsernameFromToken(token) } returns username
